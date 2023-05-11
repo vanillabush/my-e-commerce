@@ -1,10 +1,11 @@
 const stripe = require('stripe')(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY);
 
 export default async function handler(req, res) {
+  console.log(req.body)
   if (req.method === 'POST') {
     try {
       const params = {
-        submit_typ :'pay',
+        submit_type :'pay',
         mode: 'payment',
         payment_method_types: ['card'],
         billing_address_collection: 'auto',
@@ -14,13 +15,13 @@ export default async function handler(req, res) {
         ],
         line_items: req.body.map((item) =>{
           const img = item.image[0].asset_ref;
-          const newImage = img.replace('image-','https//cdn.sanity.io/images/vfey7hfs/production/').replace('-webp','.webp')
+          // const newImage = img.replace('image-', 'https://cdn.sanity.io/images/vfey7hfs/production/').replace('-webp', '.webp');
           return{
             price_data: {
               currency: 'usd',
               product_data: {
                 name: item.name,
-                images:[newImage],
+                // images:[newImage],
               },
               unit_amount: item.price * 100,
             },
@@ -31,7 +32,7 @@ export default async function handler(req, res) {
             quantity: item.quantity
           }
         }),
-        success_url: `${req.headers.origin}/?success=true`,
+        success_url: `${req.headers.origin}/success`,
         cancel_url: `${req.headers.origin}/?canceled=true`,
       }
       // Create Checkout Sessions from body params.

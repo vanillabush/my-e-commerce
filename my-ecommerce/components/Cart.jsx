@@ -13,24 +13,26 @@ const Cart = () => {
   const { totalPrice, totalQuantities, cartItems, setShowCart, toggleCartItemQuanitity, onRemove } = useStateContext();
 
   const handleCheckout = async () => {
-    const stripe = await getStripe();
-
-    const response = await fetch('/api/stripe', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(cartItems),
-    });
-
-    if(response.statusCode === 500) return;
-    
-    const data = await response.json();
-
-    toast.loading('Redirecting...');
-
-    stripe.redirectToCheckout({ sessionId: data.id });
-  }
+    try {
+      const stripe = await getStripe();
+      const response = await fetch('/api/stripe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(cartItems),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        toast.loading('Redirecting...');
+        stripe.redirectToCheckout({ sessionId: data.id });
+      } else {
+        throw new Error('Network response was not ok');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="cart-wrapper" ref={cartRef}>
