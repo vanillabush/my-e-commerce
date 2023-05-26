@@ -10,9 +10,12 @@ const Navbar = () => {
 
   return (
     <div className="navbar-container">
-      <p className="logo">
+      <div class="background-three link-container">
+        <a class="link-three" href="/">MARKHENRY'S STORE</a>
+      </div>
+      {/* <p className="logo">
         <Link href="/">MARKHENRY'S STORE</Link>
-      </p>
+      </p> */}
 
       <button type="button" className="cart-icon" onClick={() => setShowCart(true)}>
         <AiOutlineShopping />
