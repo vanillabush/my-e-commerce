@@ -10,8 +10,8 @@ const Navbar = () => {
 
   return (
     <div className="navbar-container">
-      <div class="background-three link-container">
-        <a class="link-three" href="/">MARKHENRY'S STORE</a>
+      <div class="background-one link-container">
+        <Link class="link-one" href="/">MARKHENRY'S STORE</Link>
       </div>
       {/* <p className="logo">
         <Link href="/">MARKHENRY'S STORE</Link>
